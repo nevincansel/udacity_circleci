@@ -29,10 +29,10 @@ jobs:
             chmod +x hello.sh
             ./hello.sh
             return 1
-      -run:
-        name: Throw Error
-        echo "Your job has been failed!"
-        when: on_fail
+      - run:
+          name: Throw Error
+          echo "Your job has been failed!"
+          when: on_fail
             
   print_world:
     docker:
