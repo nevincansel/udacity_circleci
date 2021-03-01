@@ -15,12 +15,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dotnetcore
+  name: hepsiburada
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dotnetcore
+      app: hepsiburada
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -29,13 +29,13 @@ spec:
   template:
     metadata:
       labels:
-        app: dotnetcore
+        app: hepsiburada
     spec:
       containers:
-      - name: dotnetcore
+      - name: hepsiburada
         image: gcr.io/PROJECT_ID/IMAGE:TAG
         ports:
-        - containerPort: 5001
+        - containerPort: 11130
         resources:
           requests:
             cpu: 100m
