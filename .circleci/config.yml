@@ -44,29 +44,22 @@ jobs:
       - run:
           name: Save Hello World Output
           command: |
-            mkdir /powershell
-            cd powershell
-            echo "Hello World!" > output.txt
-
-  persist_to_workspace:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
+            echo "Hello World!" > ~/output.txt
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: ~/
           paths:
-            - /powershell/output.txt
+            - output.txt
   
   print_output_file:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: ~/
       - run:
           name: Read the Output
           command: |
-            cat output.txt
+            cat ~/output.txt
     
 
 
@@ -80,9 +73,6 @@ workflows:
       - print_world
       - print_myname
       - save_hello_world_output
-      - persist_to_workspace:
-          requires:
-            - save_hello_world_output
       - print_output_file:
           requires:
-            - persist_to_workspace
+            - save_hello_world_output
