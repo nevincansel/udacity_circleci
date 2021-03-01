@@ -1,21 +1,98 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-orbs:
-  python: circleci/python@0.2.1
-
-jobs:
-  build-and-test:
-    executor: python/default
+commands:
+  print_pipeline_id:
+    description: Prints Pipeline ID
+    parameters:
+      parameter_id:
+        type: string
+        default: "Hello World"
     steps:
+      - run: echo << parameters.parameter_id >>
+
+# Use a package of configuration called an orb.
+orbs:
+  # Declare a dependency on the welcome-orb
+  welcome: circleci/welcome-orb@0.4.1
+# Orchestrate or schedule a set of jobs
+jobs:
+  print_hello:
+    docker:
+      - image: circleci/node:13.8.0
+    steps: 
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
       - run:
-          command: python3 HelloWorld.py
-          name: Test
+          name: Print Hello 
+          command: |
+            #!/bin/bash
+            chmod +x hello.sh
+            ./hello.sh
+            return 1
+      - run:
+          name: Throw Error
+          command: |
+            echo "Your job has been failed!"
+          when: on_fail
+            
+  print_world:
+    docker:
+      - image: circleci/node:13.8.0
+    steps: 
+      - checkout
+      - run:
+          name: Print World
+          command: |
+            #!/bin/bash
+            chmod +x world.sh
+            ./world.sh
+  print_myname:
+    environment:
+      MYNAME: Cansel
+    docker:
+      - image: circleci/node:13.8.0
+    steps: 
+      - checkout
+      - run: echo $MYNAME
+      - print_pipeline_id:
+          parameter_id: $CIRCLE_WORKFLOW_ID
+      
+  save_hello_world_output:
+    docker:
+      - image: circleci/node:13.8.0
+    steps: 
+      - run:
+          name: Save Hello World Output
+          command: |
+            echo "Hello World!" > ~/output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - output.txt
+  
+  print_output_file:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Read the Output
+          command: |
+            cat ~/output.txt
+    
+
 
 workflows:
-  main:
+  # Name the workflow "welcome"
+  welcome:
+    # Run the welcome/run job in its own container
     jobs:
-      - build-and-test
+      - welcome/run
+      - print_hello
+      - print_world
+      - print_myname
+      - save_hello_world_output
+      - print_output_file:
+          requires:
+            - save_hello_world_output
