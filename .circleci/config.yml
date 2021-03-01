@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Save Hello World Output
           command: |
-            echo "Hello World!" | Out-File -FilePath udacity-circleci/.circleci/powershell/output.txt
+            echo "Hello World!" > udacity-circleci/.circleci/powershell/output.txt
 
   persist_to_workspace:
     docker:
