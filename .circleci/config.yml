@@ -4,12 +4,8 @@ version: 2.1
 command:
   print_pipeline_id:
     description: Prints Pipeline ID
-    parameters:
-      parameter_id:
-        type: string
-        default: "Hello World"
     steps:
-      - run: echo << parameters.parameter_id >>
+      - run: echo ${CIRCLE_WORKFLOW_ID}
 
 # Use a package of configuration called an orb.
 orbs:
@@ -47,8 +43,7 @@ jobs:
     steps: 
       - checkout
       - run: echo $MYNAME
-      - print_pipeline_id:
-          parameter_id: $CIRCLE_WORKFLOW_ID
+      - print_pipeline_id
       
   save_hello_world_output:
     docker:
