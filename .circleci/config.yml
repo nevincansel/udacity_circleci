@@ -36,6 +36,33 @@ jobs:
     steps: 
       - checkout
       - run: echo $MYNAME
+      
+  save_hello_world_output:
+    docker:
+      - image: circleci/node:13.8.0
+    steps: 
+      - run:
+          name: Save Hello World Output
+          command: |
+            echo "Hello World!" > "udacity-circleci/.circleci/powershell/output.txt"
+
+  persist_to_workspace:
+    steps:
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - udacity-circleci/.circleci/powershell/output.txt
+  
+  print_output_file:
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+        name: Read the Output
+          command: |
+            cat /tmp/workspace/output.txt
+    
+
 
 workflows:
   # Name the workflow "welcome"
@@ -46,3 +73,6 @@ workflows:
       - print_hello
       - print_world
       - print_myname
+      - save_hello_world_output
+      - persist_to_workspace
+      - print_output_file
