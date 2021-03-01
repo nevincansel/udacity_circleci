@@ -44,23 +44,23 @@ jobs:
       - run:
           name: Save Hello World Output
           command: |
-            echo "Hello World!" > output.txt
+            echo "Hello World!" > /tmp/workspace/output.txt
 
   persist_to_workspace:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - persist_to_workspace:
-          root: ~/
+          root: /tmp/workspace
           paths:
-            - udacity-circleci/.circleci/powershell/output.txt
+            - /tmp/workspace/output.txt
   
   print_output_file:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - attach_workspace:
-          at: ~/
+          at: /tmp/workspace
       - run:
           name: Read the Output
           command: |
