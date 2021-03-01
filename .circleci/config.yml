@@ -58,7 +58,7 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run:
-        name: Read the Output
+          name: Read the Output
           command: |
             cat /tmp/workspace/output.txt
     
