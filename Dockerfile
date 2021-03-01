@@ -4,4 +4,4 @@ WORKDIR /app
 RUN pip install flask
 EXPOSE 11130 
 ENTRYPOINT [ "python" ] 
-CMD [ "HelloWorld.py" ] 
+CMD [ "HelloWorld.py" ]
