@@ -31,7 +31,8 @@ jobs:
             return 1
       - run:
           name: Throw Error
-          echo "Your job has been failed!"
+          command: |
+            echo "Your job has been failed!"
           when: on_fail
             
   print_world:
