@@ -28,7 +28,14 @@ jobs:
             #!/bin/bash
             chmod +x world.sh
             ./world.sh
-
+  print_myname:
+    environment:
+      MYNAME: Cansel
+    docker:
+      - image: circleci/node:13.8.0
+    steps: 
+      - checkout
+      - run: echo $MYNAME
 
 workflows:
   # Name the workflow "welcome"
@@ -38,3 +45,4 @@ workflows:
       - welcome/run
       - print_hello
       - print_world
+      - print_myname
