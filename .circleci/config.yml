@@ -47,6 +47,8 @@ jobs:
             echo "Hello World!" > "udacity-circleci/.circleci/powershell/output.txt"
 
   persist_to_workspace:
+    docker:
+      - image: circleci/node:13.8.0
     steps:
       - persist_to_workspace:
           root: /tmp/workspace
@@ -54,6 +56,8 @@ jobs:
             - udacity-circleci/.circleci/powershell/output.txt
   
   print_output_file:
+    docker:
+      - image: circleci/node:13.8.0
     steps:
       - attach_workspace:
           at: /tmp/workspace
