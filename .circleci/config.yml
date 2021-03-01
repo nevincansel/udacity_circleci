@@ -26,7 +26,8 @@ jobs:
           name: Print World
           command: |
             #!/bin/bash
-            run: echo "World!"
+            chmod +x world.sh
+            ./world.sh
 
 
 workflows:
