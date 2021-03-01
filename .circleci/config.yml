@@ -74,9 +74,9 @@ workflows:
       - print_world
       - print_myname
       - save_hello_world_output
-      - persist_to_workspace
+      - persist_to_workspace:
           requires:
             - save_hello_world_output
-      - print_output_file
+      - print_output_file:
           requires:
             - persist_to_workspace
