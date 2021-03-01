@@ -14,6 +14,7 @@ jobs:
       - run:
           command: |
             #!/bin/bash
+            chmod +x hello.sh
             ./hello.sh
   print_world:
     docker:
@@ -23,6 +24,7 @@ jobs:
       - run:
           command: |
             #!/bin/bash
+            chmod +x world.sh
             ./world.sh
 
 
