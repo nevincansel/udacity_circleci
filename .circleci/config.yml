@@ -7,7 +7,6 @@ command:
     parameters:
       parameter_id:
         type: string
-        default: $CIRCLE_WORKFLOW_ID
     steps:
       - run: echo << parameters.parameter_id >>
 
@@ -47,7 +46,8 @@ jobs:
     steps: 
       - checkout
       - run: echo $MYNAME
-      - print_pipeline_id
+      - print_pipeline_id:
+          parameter_id: $CIRCLE_WORKFLOW_ID
       
   save_hello_world_output:
     docker:
