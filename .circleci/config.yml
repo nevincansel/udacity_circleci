@@ -86,7 +86,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - run:
-          command: aws cloudformation --create-stack CircleCI --template-body file:template.yml
+          command: aws cloudformation create-stack --stack-name CircleCI --template-body file:template.yml
 
     
 
