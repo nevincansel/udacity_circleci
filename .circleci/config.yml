@@ -86,10 +86,10 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - run:
-          command: aws cloudformation deploy --stack-name Circle-CI --template-file .circleci/files/template.yml
-
-    
-
+          command: |
+            aws cloudformation deploy \
+            --template-file template.yml \
+            --stack-name Circle-CI
 
 workflows:
   # Name the workflow "welcome"
