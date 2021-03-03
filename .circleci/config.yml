@@ -1,6 +1,21 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+commands:
+  print_pipeline_id:
+    description: Prints Pipeline ID
+    parameters:
+      parameter_id:
+        type: string
+        default: "Hello World"
+    steps:
+      - run: echo << parameters.parameter_id >>
+
+# Use a package of configuration called an orb.
+orbs:
+  # Declare a dependency on the welcome-orb
+  welcome: circleci/welcome-orb@0.4.1
+# Orchestrate or schedule a set of jobs
 jobs:
   print_hello:
     docker:
@@ -13,6 +28,13 @@ jobs:
             #!/bin/bash
             chmod +x hello.sh
             ./hello.sh
+            return 1
+      - run:
+          name: Throw Error
+          command: |
+            echo "Your job has been failed!"
+          when: on_fail
+            
   print_world:
     docker:
       - image: circleci/node:13.8.0
@@ -24,14 +46,41 @@ jobs:
             #!/bin/bash
             chmod +x world.sh
             ./world.sh
-  
-  create_infrastructure:
+  print_myname:
+    environment:
+      MYNAME: Cansel
     docker:
-      - image: amazon/aws-cli
+      - image: circleci/node:13.8.0
+    steps: 
+      - checkout
+      - run: echo $MYNAME
+      - print_pipeline_id:
+          parameter_id: $CIRCLE_WORKFLOW_ID
+      
+  save_hello_world_output:
+    docker:
+      - image: circleci/node:13.8.0
+    steps: 
       - run:
-        name: Create Infrastructure with CloudFormation
-        command: |
-          aws cloudformation create-stack --stack-name CircleCI -template-body template.yml
+          name: Save Hello World Output
+          command: |
+            echo "Hello World!" > ~/output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - output.txt
+  
+  print_output_file:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Read the Output
+          command: |
+            cat ~/output.txt
+    
 
 
 workflows:
@@ -39,7 +88,11 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
+      - welcome/run
       - print_hello
       - print_world
-        requires:
-          - print_hello
+      - print_myname
+      - save_hello_world_output
+      - print_output_file:
+          requires:
+            - save_hello_world_output
