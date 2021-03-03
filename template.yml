@@ -5,7 +5,7 @@ Resources:
       SecurityGroups:
         - Ref: InstanceSecurityGroup
       KeyName: aws-udacity
-      ImageId: "ami-021b11172ff3fdbe5"
+      ImageId: "ami-081e3794cf305d6cd"
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
