@@ -80,6 +80,14 @@ jobs:
           name: Read the Output
           command: |
             cat ~/output.txt
+  
+  create_infrastructure:
+    docker: 
+      - image: amazon/aws-cli
+    steps:
+      - run:
+          command: aws cloudformation --create-stack CircleCI --template-body file:template.yml
+
     
 
 
@@ -88,11 +96,13 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - welcome/run
-      - print_hello
-      - print_world
-      - print_myname
-      - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
+      - create_infrastructure
+      #- welcome/run
+      #- print_hello
+      #- print_world
+      #- print_myname
+      #- save_hello_world_output
+      #- print_output_file:
+       #   requires:
+       #     - save_hello_world_output
+    
