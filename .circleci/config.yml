@@ -94,14 +94,11 @@ jobs:
   deploy:
     docker: 
       - image: python:3.7-alpine3.11
-    environment:
-      ANSIBLE_HOST_KEY_CHECKING: False
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
             - "d4:ad:c9:09:86:2a:fc:1f:0b:bb:b8:78:25:3d:bb:ff"
-      - run: export ANSIBLE_HOST_KEY_CHECKING=False
       - run:
           name: Install dependencies
           command: |
