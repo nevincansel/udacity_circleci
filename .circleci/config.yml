@@ -107,6 +107,7 @@ jobs:
           name: Configure server
           command: |
             ansible-playbook -i inventory.txt main-remote.yml
+            yes
       
 
 workflows:
