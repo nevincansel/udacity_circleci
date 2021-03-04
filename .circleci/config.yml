@@ -101,6 +101,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "d4:ad:c9:09:86:2a:fc:1f:0b:bb:b8:78:25:3d:bb:ff"
+      - run: export ANSIBLE_HOST_KEY_CHECKING=False
       - run:
           name: Install dependencies
           command: |
