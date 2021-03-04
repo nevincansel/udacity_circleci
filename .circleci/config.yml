@@ -91,6 +91,22 @@ jobs:
             aws cloudformation deploy \
             --template-file template.yml \
             --stack-name Circle-CI
+  deploy:
+    docker: 
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "d4:ad:c9:09:86:2a:fc:1f:0b:bb:b8:78:25:3d:bb:ff"
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
+      - run:
+          name: Configure server
+          command: |
+            ansible-playbook -i inventory.txt main-remote.yml
       
 
 workflows:
@@ -98,7 +114,7 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - create_infrastructure
+      - deploy
       #- welcome/run
       #- print_hello
       #- print_world
