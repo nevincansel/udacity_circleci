@@ -1,2 +1,2 @@
 [all]
-3.64.57.22
+ec2-3-64-57-22.eu-central-1.compute.amazonaws.com
