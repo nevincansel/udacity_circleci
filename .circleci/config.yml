@@ -10,14 +10,14 @@ commands:
         default: "Hello World"
     steps:
       - run: echo << parameters.parameter_id >>
-    
+
   destroy_environment:
     steps:
       - run:
           name: Destroy environment
           when: on_fail
           command: |
-              aws cloudformation delete-stack --stack-name prod-${CIRCLE_WORKFLOW_ID}
+            aws cloudformation delete-stack --stack-name prod-${CIRCLE_WORKFLOW_ID}
 
 # Use a package of configuration called an orb.
 orbs:
@@ -28,10 +28,10 @@ jobs:
   print_hello:
     docker:
       - image: circleci/node:13.8.0
-    steps: 
+    steps:
       - checkout
       - run:
-          name: Print Hello 
+          name: Print Hello
           command: |
             #!/bin/bash
             chmod +x hello.sh
@@ -42,11 +42,11 @@ jobs:
           command: |
             echo "Your job has been failed!"
           when: on_fail
-            
+
   print_world:
     docker:
       - image: circleci/node:13.8.0
-    steps: 
+    steps:
       - checkout
       - run:
           name: Print World
@@ -59,16 +59,16 @@ jobs:
       MYNAME: Cansel
     docker:
       - image: circleci/node:13.8.0
-    steps: 
+    steps:
       - checkout
       - run: echo $MYNAME
       - print_pipeline_id:
           parameter_id: $CIRCLE_WORKFLOW_ID
-      
+
   save_hello_world_output:
     docker:
       - image: circleci/node:13.8.0
-    steps: 
+    steps:
       - run:
           name: Save Hello World Output
           command: |
@@ -77,7 +77,7 @@ jobs:
           root: ~/
           paths:
             - output.txt
-  
+
   print_output_file:
     docker:
       - image: circleci/node:13.8.0
@@ -88,7 +88,7 @@ jobs:
           name: Read the Output
           command: |
             cat ~/output.txt
-  
+
   create_infrastructure:
     docker:
       - image: amazon/aws-cli
@@ -164,7 +164,7 @@ jobs:
             aws cloudformation delete-stack --stack-name ${PreviousPipelineID}
 
   deploy:
-    docker: 
+    docker:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
@@ -185,7 +185,7 @@ jobs:
             ansible-playbook -i inventory.txt main-remote.yml
 
   smoke_test:
-    docker: 
+    docker:
       - image: amazon/aws-cli
     steps:
       - checkout
@@ -195,7 +195,6 @@ jobs:
             #!/bin/bash
             chmod +x smoke-test.sh
             ./smoke-test.sh
-      
 
 workflows:
   cd_workflow:
@@ -207,18 +206,18 @@ workflows:
       #- print_myname
       #- save_hello_world_output
       #- print_output_file:
-       #   requires:
-       #     - save_hello_world_output
-     # - create_infrastructure:
+      #   requires:
+      #     - save_hello_world_output
+      # - create_infrastructure:
       #    filters:
-       #     branches:
-        #      only:
-         #       - master
+      #     branches:
+      #      only:
+      #       - master
       #- smoke_test
       - create_and_deploy_front_end
       - get_last_deployment_id:
-        requires:
-          - create_and_deploy_front_end
+          requires:
+            - create_and_deploy_front_end
       - promote_to_production:
           requires:
             - get_last_deployment_id
