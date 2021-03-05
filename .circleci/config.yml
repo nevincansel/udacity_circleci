@@ -106,11 +106,22 @@ jobs:
       - run:
           name: Install flask
           command: |
-            apt-get install python-flask
+            pip install flask
       - run:
           name: Configure server
           command: |
             ansible-playbook -i inventory.txt main-remote.yml
+
+  smoke_test:
+    docker: 
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - run:
+          command: |
+            #!/bin/bash
+            chmod +x smoke-test.sh
+            ./smoke-test.sh
       
 
 workflows:
@@ -118,7 +129,7 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - deploy
+      #- deploy
       #- welcome/run
       #- print_hello
       #- print_world
@@ -127,4 +138,4 @@ workflows:
       #- print_output_file:
        #   requires:
        #     - save_hello_world_output
-    
+      - smoke_test
