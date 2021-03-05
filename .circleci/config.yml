@@ -119,6 +119,8 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run: yum install -y tar
+      - run: yum install -y gzip
       - run:
           name: Get Deployment ID
           command: |
@@ -155,6 +157,8 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run: yum install -y tar
+      - run: yum install -y gzip
       - run:
           name: Clean Up Old Frontend
           command: |
