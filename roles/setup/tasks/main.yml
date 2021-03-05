@@ -25,9 +25,6 @@
     src: "files/HelloWorld.py"
     dest: "~/web/HelloWorld.py"
 
-- name: Install flask
-  command: pip install flask
-  
 - name: Executing node
   command: |
     python3 ~/web/HelloWorld.py -f
