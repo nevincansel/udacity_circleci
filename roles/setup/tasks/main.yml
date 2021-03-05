@@ -14,13 +14,6 @@
   apt:
     autoremove: yes
 
-- name: Install dependencies
-  dnf: pkg={{item}} state=present            
-  with_items:            
-    - python3-flask            
-    - dumb-init            
-    - httpd            
-    - python3-mod_wsgi
 
 - name: Creates directory
   file:
@@ -32,6 +25,9 @@
     src: "files/HelloWorld.py"
     dest: "~/web/HelloWorld.py"
 
+-name: 
+
 - name: Executing node
   shell: |
+    pip install -U Flask
     python3 ~/web/HelloWorld.py -f
