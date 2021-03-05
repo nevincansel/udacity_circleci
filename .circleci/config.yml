@@ -98,6 +98,10 @@ jobs:
             aws cloudformation deploy \
             --template-file template.yml \
             --stack-name prod-${CIRCLE_WORKFLOW_ID}
+      - run: return 1
+      - destroy_environment
+        when: on_fail
+
   deploy:
     docker: 
       - image: python:3.7-alpine3.11
@@ -130,8 +134,6 @@ jobs:
             #!/bin/bash
             chmod +x smoke-test.sh
             ./smoke-test.sh
-      - destroy_environment
-        when: on_fail
       
 
 workflows:
@@ -149,4 +151,4 @@ workflows:
        #   requires:
        #     - save_hello_world_output
       - create_infrastructure
-      - smoke_test
+      #- smoke_test
