@@ -29,6 +29,6 @@ Resources:
 
 Outputs:
   PipelineID:
-    Value: !Sub ${NAME}
+    Value: !Sub ${PipelineID}
     Export:
       Name: PipelineID
