@@ -98,7 +98,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "d4:ad:c9:09:86:2a:fc:1f:0b:bb:b8:78:25:3d:bb:ff"
+            - "d1:c3:52:06:4c:e8:b4:fd:99:d9:85:cb:61:ee:90:ad"
       - run:
           name: Install dependencies
           command: |
@@ -106,7 +106,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ansible-playbook -i inventory.txt main-remote.yml --private-key "aws-udacity.pem"
+            ansible-playbook -i inventory.txt main-remote.yml
       
 
 workflows:
