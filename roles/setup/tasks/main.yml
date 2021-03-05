@@ -14,8 +14,8 @@
   apt:
     autoremove: yes
 
-  - name: install flask with pip
-    pip: name=flask
+- name: install flask with pip
+  pip: name=flask
 
 - name: Creates directory
   file:
