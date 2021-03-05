@@ -143,9 +143,9 @@ jobs:
           name: Promote to Production
           command: |
             aws cloudformation deploy \
-            --template-file cloudfront.yml \
+            --template-file cloudformation.yml \
             --stack-name production-distro \
-            --parameter-overrides PipelineID="${S3_BUCKET_NAME}"
+            --parameter-overrides PipelineID="cansel-circle-ci"
 
   clean_up_old_front_end:
     docker:
