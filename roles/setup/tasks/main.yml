@@ -14,11 +14,13 @@
   apt:
     autoremove: yes
 
-- name: install pip
-  apt: name=pip
-
-- name: install flask with pip
-  pip: name=flask
+- name: Install dependencies
+  dnf: pkg={{item}} state=present            
+  with_items:            
+    - python3-flask            
+    - dumb-init            
+    - httpd            
+    - python3-mod_wsgi
 
 - name: Creates directory
   file:
