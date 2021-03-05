@@ -7,9 +7,6 @@ Resources:
       KeyName: aws-udacity
       ImageId: "ami-0767046d1677be5a0"
       InstanceType: t3.medium
-      - DeviceName: "/dev/sdk"
-        Ebs:
-          VolumeSize: '10'
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
