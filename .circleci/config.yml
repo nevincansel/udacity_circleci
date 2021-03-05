@@ -126,7 +126,7 @@ jobs:
           name: Promote to Production
           command: |
             aws cloudformation deploy \
-            --template-file cloudfront.yml \
+            --template-file cloudformation.yml \
             --stack-name production-distro \
             --parameter-overrides PipelineID="${CIRCLE_WORKFLOW_ID}"
 
