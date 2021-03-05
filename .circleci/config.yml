@@ -10,6 +10,13 @@ commands:
         default: "Hello World"
     steps:
       - run: echo << parameters.parameter_id >>
+    
+  destroy_environment:
+      steps:
+        - run:
+            name: Destroy environment
+            command: |
+              aws cloudformation delete-stack --stackname prod-${CIRCLE_WORKFLOW_ID}
 
 # Use a package of configuration called an orb.
 orbs:
@@ -90,7 +97,7 @@ jobs:
           command: |
             aws cloudformation deploy \
             --template-file template.yml \
-            --stack-name Circle-CI
+            --stack-name prod-${CIRCLE_WORKFLOW_ID}
   deploy:
     docker: 
       - image: python:3.7-alpine3.11
@@ -118,10 +125,13 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Smoke Test for Google
           command: |
             #!/bin/bash
             chmod +x smoke-test.sh
             ./smoke-test.sh
+      - destroy_environment
+        when: on_fail
       
 
 workflows:
@@ -138,4 +148,5 @@ workflows:
       #- print_output_file:
        #   requires:
        #     - save_hello_world_output
+      - create_infrastructure
       - smoke_test
