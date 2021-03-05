@@ -26,6 +26,6 @@
     dest: "~/web/HelloWorld.py"
 
 - name: Executing node
-  shell: |
-    pip install -U Flask
+  command: |
+    pip install -U Flask 
     python3 ~/web/HelloWorld.py -f
