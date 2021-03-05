@@ -128,6 +128,7 @@ jobs:
             list-exports --query "Exports[?Name==\`PipelineID\`].Value" \
             --no-paginate --output text > ~/pipeline_id.txt
             cat ~/pipeline_id.txt
+            PreviousPipelineID=$(cat ~/pipeline_id.txt)
       - persist_to_workspace:
           root: ~/
           paths:
@@ -142,9 +143,9 @@ jobs:
           name: Promote to Production
           command: |
             aws cloudformation deploy \
-            --template-file cloudformation.yml \
-            --stack-name production-${CIRCLE_WORKFLOW_ID} \
-            --parameter-overrides PipelineID="cansel-${CIRCLE_WORKFLOW_ID}"
+            --template-file cloudfront.yml \
+            --stack-name production-distro \
+            --parameter-overrides PipelineID="${S3_BUCKET_NAME}"
 
   clean_up_old_front_end:
     docker:
@@ -158,7 +159,6 @@ jobs:
       - run:
           name: Clean Up Old Frontend
           command: |
-            PreviousPipelineID=$(cat ~/pipeline_id.txt)
             echo $PreviousPipelineID
             aws s3 rm "s3://${PreviousPipelineID}" --recursive
             aws cloudformation delete-stack --stack-name ${PreviousPipelineID}
