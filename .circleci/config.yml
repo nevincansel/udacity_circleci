@@ -106,7 +106,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            sudo ansible-playbook -i inventory.txt main-remote.yml
+            ansible-playbook -i inventory.txt main-remote.yml --private-key "aws-udacity.pem"
       
 
 workflows:
