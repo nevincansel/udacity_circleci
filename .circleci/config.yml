@@ -106,7 +106,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ansible-playbook -i inventory.txt main-remote.yml
+            sudo ansible-playbook -i inventory.txt main-remote.yml
       
 
 workflows:
