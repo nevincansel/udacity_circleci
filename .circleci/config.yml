@@ -216,12 +216,12 @@ workflows:
          #       - master
       #- smoke_test
       - create_and_deploy_front_end
-      #- get_last_deployment_id:
-       #   requires:
-      #3    - create_and_deploy_front_end
-      #- promote_to_production:
-       #   requires:
-        #    - get_last_deployment_id
-      #- clean_up_old_front_end:
-       #   requires:
-        #    - promote_to_production
+      - get_last_deployment_id:
+        requires:
+          - create_and_deploy_front_end
+      - promote_to_production:
+          requires:
+            - get_last_deployment_id
+      - clean_up_old_front_end:
+          requires:
+            - promote_to_production
