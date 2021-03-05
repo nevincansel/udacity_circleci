@@ -128,20 +128,11 @@ jobs:
             --query "Exports[?Name==\`PipelineID\`].Value" \
             --no-paginate --output text >> ~/pipeline_id.txt)
             cat ~/pipeline_id.txt
-      - run:
-          name: get last deployment stack name
-          command: |
-            export PreviousStackName=$(aws cloudformation list-exports \
-            --query "Exports[?Name==\`StackName\`].Value" \
-            --no-paginate --output text >> ~/stack_name.txt)
-            cat ~/stack_name.txt
       - run: echo $PreviousWorkflowID
-      - run: echo $PreviousStackName
       - persist_to_workspace:
           root: ~/
           paths:
             - pipeline_id.txt
-            - stack_name.txt
 
   promote_to_production:
     docker:
@@ -167,7 +158,7 @@ jobs:
           name: Clean Up Old Frontend
           command: |
             aws s3 rm "s3://${PreviousPipelineID}" --recursive
-            aws cloudformation delete-stack --stack-name ${PreviousStackName}
+            aws cloudformation delete-stack --stack-name ${PreviousPipelineID}
 
   deploy:
     docker: 
