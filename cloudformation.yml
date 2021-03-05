@@ -4,7 +4,6 @@ Parameters:
     Type: String
 
 Resources:
-
   CloudFrontOriginAccessIdentity:
     Type: "AWS::CloudFront::CloudFrontOriginAccessIdentity"
     Properties:
@@ -27,18 +26,8 @@ Resources:
             QueryString: False
           TargetOriginId: webpage
           ViewerProtocolPolicy: allow-all
-
-Outputs:
-  PipelineID:
-    Value: !Sub ${PipelineID}
-    Export:
-      Name: PipelineID
-Save that file to your repo as you will need it in the automation steps later.
-
-Execute the template with the following command:
-
-aws cloudformation deploy \
---template-file cloudfront.yml \
---stack-name production-distro \
---parameter-overrides PipelineID="${S3_BUCKET_NAME}" \ # Name of the S3 bucket you created manually.
---tags project=udapeople &
+  Outputs:
+    PipelineID:
+      Value: !Sub ${PipelineID}
+      Export:
+        Name: PipelineID
