@@ -12,10 +12,10 @@ commands:
       - run: echo << parameters.parameter_id >>
     
   destroy_environment:
-      steps:
-        - run:
-            name: Destroy environment
-            command: |
+    steps:
+      - run:
+          name: Destroy environment
+          command: |
               aws cloudformation delete-stack --stackname prod-${CIRCLE_WORKFLOW_ID}
 
 # Use a package of configuration called an orb.
@@ -89,15 +89,16 @@ jobs:
             cat ~/output.txt
   
   create_infrastructure:
-    docker: 
+    docker:
       - image: amazon/aws-cli
     steps:
       - checkout
       - run:
+          name: Create Stack
           command: |
             aws cloudformation deploy \
-            --template-file template.yml \
-            --stack-name prod-${CIRCLE_WORKFLOW_ID}
+              --template-file template.yml \
+              --stack-name prod-${CIRCLE_WORKFLOW_ID}
       - run: return 1
       - destroy_environment
         when: on_fail
