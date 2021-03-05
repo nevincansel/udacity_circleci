@@ -124,16 +124,12 @@ jobs:
       - run:
           name: Get Deployment ID
           command: |
-            aws cloudformation \
-            list-exports --query "Exports[?Name==\`PipelineID\`].Value" \
-            --no-paginate --output text > ~/pipeline_id.txt
+            aws cloudformation list-exports --query "Exports[?Name==\`PipelineID\`].Value" --no-paginate --output text > ~/pipeline_id.txt
       - run: cat ~/pipeline_id.txt
       - run:
           name: get last deployment stack name
           command: |
-            aws cloudformation \
-            list-exports --query "Exports[?Name==\`StackName\`].Value" \
-            --no-paginate --output text > ~/stack_name.txt
+            aws cloudformation list-exports --query "Exports[?Name==\`StackName\`].Value" --no-paginate --output text > ~/stack_name.txt
       - run: cat ~/stack_name.txt
       - persist_to_workspace:
           root: ~/
@@ -229,9 +225,3 @@ workflows:
       - get_last_deployment_id:
           requires:
             - create_and_deploy_front_end
-      - promote_to_production:
-          requires:
-            - get_last_deployment_id
-      - clean_up_old_front_end:
-          requires:
-            - promote_to_production
