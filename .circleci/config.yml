@@ -127,12 +127,14 @@ jobs:
             aws cloudformation \
             list-exports --query "Exports[?Name==\`PipelineID\`].Value" \
             --no-paginate --output text > ~/pipeline_id.txt
+      - run: cat ~/pipeline_id.txt
       - run:
           name: get last deployment stack name
           command: |
             aws cloudformation \
             list-exports --query "Exports[?Name==\`StackName\`].Value" \
             --no-paginate --output text > ~/stack_name.txt
+      - run: cat ~/stack_name.txt
       - persist_to_workspace:
           root: ~/
           paths:
