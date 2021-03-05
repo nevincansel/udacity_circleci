@@ -114,7 +114,7 @@ jobs:
             aws cloudformation deploy \
             --template-file bucket.yml \
             --stack-name cansel-${CIRCLE_WORKFLOW_ID:0:7} \ 
-            --parameter-overrides PipelineID="cansel-${CIRCLE_WORKFLOW_ID:0:7}"
+            --parameter-overrides NAME="cansel-${CIRCLE_WORKFLOW_ID:0:7}"
       - run: aws s3 sync . s3://cansel-${CIRCLE_WORKFLOW_ID} --delete
 
   get_last_deployment_id:
