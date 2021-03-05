@@ -143,7 +143,6 @@ jobs:
             --no-paginate --output text > ~/pipeline_id.txt
       - run:
           name: get last deployment stack name
-          #echo environment variable
           command: |
             aws cloudformation \
             list-exports --query "Exports[?Name==\`StackName\`].Value" \
