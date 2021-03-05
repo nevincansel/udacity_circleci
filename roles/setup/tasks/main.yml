@@ -27,6 +27,4 @@
 
 - name: Executing node
   command: |
-    easy_install pip
-    pip install -U Flask 
     python3 ~/web/HelloWorld.py -f
