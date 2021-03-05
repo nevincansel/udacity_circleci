@@ -123,7 +123,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Get Deployment ID
+          name: Promote to Production
           command: |
             aws cloudformation deploy \
             --template-file cloudfront.yml \
@@ -159,7 +159,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Get Deployment ID
+          name: Clean Up Old Frontend
           command: |
             cat ~/pipeline_id.txt
             cat ~/stack_name.txt
