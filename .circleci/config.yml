@@ -192,12 +192,24 @@ jobs:
             chmod +x smoke-test.sh
             ./smoke-test.sh
 
+  get_ec2_public_dns:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Get Public DNS of EC2 Instance
+          command: |
+            aws ec2 describe-instances \ 
+            --query 'Reservations[*].Instances[*].PublicDnsName' \ 
+            --output text >> inventory.txt
+
 workflows:
   cd_workflow:
     jobs:
       - deploy:
           requires:
-            - create_infrastructure
+            - get_ec2_public_dns
       #- welcome/run
       #- print_hello
       #- print_world
@@ -207,6 +219,9 @@ workflows:
       #   requires:
       #     - save_hello_world_output
       - create_infrastructure
+      - get_ec2_public_dns
+          requires:
+            - create_infrastructure
       #    filters:
       #     branches:
       #      only:
