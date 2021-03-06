@@ -175,15 +175,12 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-      - run: yum install -y tar
-      - run: yum install -y gzip
       - attach_workspace:
           at: ~/
       - run:
           name: Configure server
           command: |
             ansible-playbook -i inventory.txt main-remote.yml
-      - destroy_environment
 
   smoke_test:
     docker:
