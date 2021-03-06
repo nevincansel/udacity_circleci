@@ -100,7 +100,7 @@ jobs:
             aws cloudformation deploy \
               --template-file template.yml \
               --stack-name prod-${CIRCLE_WORKFLOW_ID}
-              --parameter-overrides NAME="${CIRCLE_WORKFLOW_ID}"
+#              --parameter-overrides NAME="${CIRCLE_WORKFLOW_ID}"
       - destroy_environment
 
   create_and_deploy_front_end:
