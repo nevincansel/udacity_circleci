@@ -200,9 +200,7 @@ jobs:
       - run:
           name: Get Public DNS of EC2 Instance
           command: |
-            aws ec2 describe-instances \ 
-            --query 'Reservations[*].Instances[*].PublicDnsName' \ 
-            --output text >> inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicDnsName' --output text >> inventory.txt
 
 workflows:
   cd_workflow:
