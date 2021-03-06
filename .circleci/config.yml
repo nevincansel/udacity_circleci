@@ -144,7 +144,7 @@ jobs:
             aws cloudformation deploy \
             --template-file cloudfront.yml \
             --stack-name production-distro \
-            --parameter-overrides PipelineID="cansel-circle-ci"
+            --parameter-overrides PipelineID="cansel-${CIRCLE_WORKFLOW_ID}"
 
   clean_up_old_front_end:
     docker:
@@ -214,4 +214,13 @@ workflows:
       #      only:
       #       - master
       #- smoke_test
-      - promote_to_production
+      - create_and_deploy_front_end
+      - get_last_deployment_id:
+          requires:
+            - create_and_deploy_front_end
+      - promote_to_production:
+          requires:
+            - get_last_deployment_id
+      - clean_up_old_front_end:
+          requires:
+            - promote_to_production
