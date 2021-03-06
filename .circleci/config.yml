@@ -183,6 +183,7 @@ jobs:
           name: Configure server
           command: |
             ansible-playbook -i inventory.txt main-remote.yml
+      - destroy_environment
 
   smoke_test:
     docker:
@@ -212,7 +213,7 @@ jobs:
           root: ~/
           paths:
             - inventory.txt
-
+      - destroy_environment
 
 workflows:
   cd_workflow:
