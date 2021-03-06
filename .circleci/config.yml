@@ -219,7 +219,7 @@ workflows:
       #   requires:
       #     - save_hello_world_output
       - create_infrastructure
-      - get_ec2_public_dns
+      - get_ec2_public_dns:
           requires:
             - create_infrastructure
       #    filters:
