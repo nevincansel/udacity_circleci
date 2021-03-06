@@ -143,7 +143,7 @@ jobs:
           command: |
             aws cloudformation deploy \
             --template-file cloudformation.yml \
-            --stack-name production-distro \
+            --stack-name production-${CIRCLE_WORKFLOW_ID:0:7} \
             --parameter-overrides PipelineID="cansel-circle-ci"
 
   clean_up_old_front_end:
