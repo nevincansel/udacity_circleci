@@ -175,6 +175,8 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
+      - attach_workspace:
+          at: ~/
       - run:
           name: Configure server
           command: |
@@ -200,7 +202,13 @@ jobs:
       - run:
           name: Get Public DNS of EC2 Instance
           command: |
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicDnsName' --output text >> inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicDnsName' --output text >> ~/inventory.txt
+            cat ~/inventory.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - inventory.txt
+
 
 workflows:
   cd_workflow:
