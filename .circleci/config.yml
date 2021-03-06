@@ -168,6 +168,10 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - run: yum install -y tar
+      - run: yum install -y gzip
+      - attach_workspace:
+          at: ~/
       - add_ssh_keys:
           fingerprints:
             - "d1:c3:52:06:4c:e8:b4:fd:99:d9:85:cb:61:ee:90:ad"
@@ -175,8 +179,6 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-      - attach_workspace:
-          at: ~/
       - run:
           name: Configure server
           command: |
