@@ -128,7 +128,6 @@ jobs:
             list-exports --query "Exports[?Name==\`PipelineID\`].Value" \
             --no-paginate --output text > ~/pipeline_id.txt
             cat ~/pipeline_id.txt
-            PreviousPipelineID=$(cat ~/pipeline_id.txt)
       - persist_to_workspace:
           root: ~/
           paths:
@@ -159,6 +158,7 @@ jobs:
       - run:
           name: Clean Up Old Frontend
           command: |
+            PreviousPipelineID=$(cat ~/pipeline_id.txt)
             echo $PreviousPipelineID
             aws s3 rm "s3://${PreviousPipelineID}" --recursive
             aws cloudformation delete-stack --stack-name ${PreviousPipelineID}
