@@ -176,10 +176,6 @@ jobs:
           command: |
             apk add --update ansible
       - run:
-          name: Install flask
-          command: |
-            pip install flask
-      - run:
           name: Configure server
           command: |
             ansible-playbook -i inventory.txt main-remote.yml
@@ -199,7 +195,9 @@ jobs:
 workflows:
   cd_workflow:
     jobs:
-      #- deploy
+      - deploy:
+          requires:
+            - create_infrastructure
       #- welcome/run
       #- print_hello
       #- print_world
@@ -208,19 +206,19 @@ workflows:
       #- print_output_file:
       #   requires:
       #     - save_hello_world_output
-      # - create_infrastructure:
+      - create_infrastructure
       #    filters:
       #     branches:
       #      only:
       #       - master
       #- smoke_test
-      - create_and_deploy_front_end
-      - get_last_deployment_id:
-          requires:
-            - create_and_deploy_front_end
-      - promote_to_production:
-          requires:
-            - get_last_deployment_id
-      - clean_up_old_front_end:
-          requires:
-            - promote_to_production
+      #- create_and_deploy_front_end
+      #- get_last_deployment_id:
+      #    requires:
+      #      - create_and_deploy_front_end
+      #- promote_to_production:
+      #    requires:
+      #      - get_last_deployment_id
+      #- clean_up_old_front_end:
+      #    requires:
+      #      - promote_to_production
