@@ -142,8 +142,8 @@ jobs:
           name: Promote to Production
           command: |
             aws cloudformation deploy \
-            --template-file cloudformation.yml \
-            --stack-name production-${CIRCLE_WORKFLOW_ID:0:7} \
+            --template-file cloudfront.yml \
+            --stack-name cansel-${CIRCLE_WORKFLOW_ID:0:7} \
             --parameter-overrides PipelineID="cansel-circle-ci"
 
   clean_up_old_front_end:
@@ -214,13 +214,4 @@ workflows:
       #      only:
       #       - master
       #- smoke_test
-      - create_and_deploy_front_end
-      - get_last_deployment_id:
-          requires:
-            - create_and_deploy_front_end
-      - promote_to_production:
-          requires:
-            - get_last_deployment_id
-      - clean_up_old_front_end:
-          requires:
-            - promote_to_production
+      - promote_to_production
